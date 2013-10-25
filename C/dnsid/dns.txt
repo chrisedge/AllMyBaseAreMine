@@ -1,0 +1,260 @@
+RFCs to read:
+1034, 1035, 1101, 1122, 1123, 1183, 1348, 1591, 1706, 1712, 1876, 1995,
+1996, 2052, 2136, 2163, 2168, 2181, 2308, 2540, 2671, 2672, 2673, 2782,
+2915, 2929,  
+
+
+From RFC 1034:
+RRs contain the following:
+owner	The domain name where the RR is found
+
+type	Encoded 16 bit value that specifies the type of resource
+	in the RR. Types refer to abstract resources. Types:
+
+	A	a host address
+	CNAME	alias
+	HINFO	the cpu and OS of the host
+	MX	mail exchanger for the domain (RFC 974)
+	NS	authoritative name server for the domain
+	PTR	pointer to another part of the domain space (in-addr.arpa)
+	SOA	start of authority for a zone
+	
+class	Encoded 16 bit value that identifies a protocol family or
+	instance of a protocol. Classes:
+
+	IN	internet system
+	CH	chaos system
+
+TTL	The time to live of the RR. 32 bit integer in seconds. Used
+	primarily by resolvers that cache RRs.
+
+RDATA	Sometimes class dependent data that describes the resource:
+	
+	A	For the IN class, a 32 bit IP
+		For the CH class, a domain name followed by a
+		16 bit octal chaos address
+	CNAME	a domain name
+	MX	a 16 bit preference value (lower is better)
+		followed by a host
+	NS	a host name
+	PTR	a domain name
+	SOA	several fields
+
+
+UDP query structure
+The message format has a header with a number of fixed fields which are
+always present,and four sections which carry query parameters and RRs.
+The most important field in the header is a four bit field called an opccode.
+Of the 16 possible values (0000, 0001, 0010, ..., 1111) one (standard query)
+is a prt of the official protocol, two (inverse and status query) are options,
+one (completion) is obsolete, and the rest are unassigned.
+The four sections are:
+
+Question	Carries the query name and other query parameters.
+Answer		Carries RRs which directly answer the query.
+Authority	Carries RRs which describe other authoritative servers.
+		May optionally carry the SOA RR for the authoritative
+		data in the answer section (hrmmmm.....).
+Additional	Carries RRs which may be helpful in using the RRs in
+		the other sections.
+
+Note: the content, but not the format, of these sections varies with the
+header opcode.
+
+A standard query specifies a target domain (QNAME), query type (QTYPE),
+and a query class (QCLASS) and asks for RRs that match. QTYPE and QCLASS
+are each 16 bit fields and are a superset of defined types and classes.
+
+QTYPE may contain:
+<any type>	matches only that type (eg, A, PTR, etc.).
+AXFR		zone xfer QTYPE
+MAILB		matches all mail box related RRs (eg, MB and MG)
+*		matches all RR types.
+
+QCLASS may contain:
+<any class>	matches only that class (eg, IN, CH).
+*		matches all RR classes.
+
+Example - a mailer using the local resolver to look up an MX record to send
+mail to someone at stclair@biggiesize.com. The query would look like:
+QNAME=biggiesize.com, QTYPE=MX, QCLASS=IN. The response's answer section
+would look like:
+
+	BIGGIESIZE.COM.	MX	10 drevil.biggiesize.com.
+
+with an additional section providing the A record for the mail exchanger:
+
+	DREVIL.BIGGIESIZE.COM.	A	63.113.219.2
+
+
+Inverse queries
+These are optional, however all name servers must be able to recognize the
+inverse query and return a not-implemented error message. See rfc1035
+for more info on inverse queries.
+
+Status queries
+Experimental, to be defined(????).
+
+Completion queries
+Obsolete. Redesigned services may be available in the future, or the opcodes
+may be reclaimed. Hrmmm......
+
+
+Resolver functions
+Host name to host address translation: takes a char string, returns one
+or more 32 bit IP addresses. Sends a request for type A RRs. 
+Host address to host name translation: takes a 32 bit IP, returns a
+char string. Octets of the IP are reversed, used as name components, and
+suffixed with "IN-ADDR.ARPA". Sends a request for type PTR RRs.
+See gethostbyname() and gethostbyaddr()
+
+Example query structure:
+
+QNAME=MOQUIJO.COM, QTYPE=A
+
+               +---------------------------------------------------+
+    Header     | OPCODE=SQUERY, RD                                 |
+               +---------------------------------------------------+
+    Question   | QNAME=MOQUIJO.COM., QCLASS=IN, QTYPE=A            |
+               +---------------------------------------------------+
+    Answer     | <empty>                                           |
+               +---------------------------------------------------+
+    Authority  | <empty>                                           |
+               +---------------------------------------------------+
+    Additional | <empty>                                           |
+               +---------------------------------------------------+
+
+What if we modify the "Answer", "Authority", and "Additional" fields in
+a query with no response opcode set in the header?
+
+Example response:
+
+               +---------------------------------------------------+
+    Header     | OPCODE=SQUERY, RESPONSE, AA                       |
+               +---------------------------------------------------+
+    Question   | QNAME=MOQUIJO.COM., QCLASS=IN, QTYPE=A            |
+               +---------------------------------------------------+
+    Answer     | MOQUIJO.COM. 86400 IN A 65.24.1.36                |
+               +---------------------------------------------------+
+    Authority  | <empty>                                           |
+               +---------------------------------------------------+
+    Additional | <empty>                                           |
+               +---------------------------------------------------+
+
+Note the response and authoritative answer bits are set.
+
+
+An example response if the QTYPE was *:
+
+               +---------------------------------------------------+
+    Header     | OPCODE=SQUERY, RESPONSE, AA                       |
+               +---------------------------------------------------+
+    Question   | QNAME=MOQUIJO.COM., QCLASS=IN, QTYPE=*            |
+               +---------------------------------------------------+
+    Answer     | MOQUIJO.COM. 86400 IN A  65.24.1.36               |
+               |                      MX  65.24.1.36               | 
+	       |                   HINFO  386 AT BEST              |
+               +---------------------------------------------------+
+    Authority  | <empty>                                           |
+               +---------------------------------------------------+
+    Additional | <empty>                                           |
+               +---------------------------------------------------+
+
+
+
+From rfc1035
+
+Size limimts
+labels		63 octets or less (1 octet = 1 byte)
+names		255 octets or less
+TTL		positive values of a signed 32 bit int
+UDP messages	512 octets or less
+
+Domain names in messages are expressed in terms of a sequence of labels.
+Each label is represented as a one octet length field followed by that
+number of octets.  Since every domain name ends with the null label of
+the root, a domain name is terminated by a length byte of zero.  The
+high order two bits of every length octet must be zero, and the
+remaining six bits of the length field limit the label to 63 octets or
+less. (OK, so what happens if those two HO bits aren't zero?)
+
+To simplify implementations, the total length of a domain name (i.e.,
+label octets and label length octets) is restricted to 255 octets or
+less.
+
+
+Top level format of RRs:
+
+                                    1  1  1  1  1  1
+      0  1  2  3  4  5  6  7  8  9  0  1  2  3  4  5
+    +--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+
+    |                                               |
+    /                                               /
+    /                      NAME                     /
+    |                                               |
+    +--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+
+    |                      TYPE                     |
+    +--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+
+    |                     CLASS                     |
+    +--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+
+    |                      TTL                      |
+    |                                               |
+    +--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+
+    |                   RDLENGTH                    |
+    +--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--|
+    /                     RDATA                     /
+    /                                               /
+    +--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+
+
+NAME		the name of the node to which this RR pertains.
+TYPE		two bytes containing one of the RR TYPE codes.
+CLASS		two bytes containing one of the RR CLASS codes.
+TTL		32 bit signed int. SOA records should be zero to 
+		prohibit caching.
+RDLENGTH	unsigned 16 bit int specifying the length of bytes
+		in the RDATA field.
+RDATA		variable length string of bytes describing the
+		resource. Format varies according to TYPE and
+		CLASS of the RR.
+
+TYPE fields in RRs (these are a subset of QTYPE, so all are valid QTYPEs):
+
+A	1	host address
+NS	2	authoritative server
+MD	3	mail destination (obsolete - use MX)
+MF	4	mail forwarder (obsolete - use MX)
+CNAME	5	alias
+SOA	6	start of a zone of authority
+MB	7	mailbox domain name (experimental)
+MG	8	mail group member (experimental)
+MR	9	mail rename domain name (experimental)
+NULL	10	null RR (experimental)
+WKS	11	well known service desc.
+PTR	12	domain name pointer
+HINFO	13	host information
+MINFO	14	mailbox or mail list information
+MX	15	mail exchanger
+TXT	16	text strings
+
+QTYPE fields appear in the question part of a query:
+
+AXFR	252	request for a zone xfer
+MAILB	253	request for mailbox related records (MB, MG, or MR)
+MAILA	254	request for mail agent RRs (obsolete, use MX)
+*	255	request for all records
+
+
+CLASS fields also appear in RRs (subset of QCLASS, so all valid QCLASSs):
+
+IN	1	the Internet
+CS	2	the CSNET class (obsolete, used only for examples in old rfcs)
+CH	3	the CHAOS class
+HS	4	Hesiod
+
+QCLASS fields appear in the question section of the query:
+
+*	255	any class
+
+Note: MmMmMmMm.....lots of unused values between.
+
+Page 13

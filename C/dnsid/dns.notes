@@ -1,0 +1,21 @@
+Take a server name (IP only) as arg1
+Take a hostname (name only) as arg2
+
+arg2 must be a host the server in arg1 is authoritative for.
+
+Start with different BIND versions. Move on to Microsoft, then others
+(tinydns, etc).
+
+When testing BIND, first develop a test to differentiate between BIND 4,
+BIND 8, and BIND 9. Then work backwards to minor releases of each.
+
+1) Identify queries we think will give varying responses based on DNS
+server version.
+	a) Based on RFCs.
+	b) Based on CHANGES documentation from version to version.
+
+2) Build queries and tes them.
+	a) Catalog queries and responses.
+	b) Look for variances in responses from same query.
+
+

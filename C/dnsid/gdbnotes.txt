@@ -1,0 +1,11 @@
+be sure to compile with gcc -g
+
+gdb ./foo
+
+set args -s 1.2.3.4 -h bar.com
+
+watch servername
+run
+finish
+step
+
