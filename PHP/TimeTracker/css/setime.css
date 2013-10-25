@@ -1,0 +1,14 @@
+@charset "utf-8";
+/* CSS Document */
+
+body { padding-left:5px; }
+#main { padding-left:5px; }
+
+
+strong { font-family:Arial, Helvetica, sans-serif; font-weight:bold; }
+
+a { font-family:Arial, Helvetica, sans-serif; }
+
+.err { color:#FF0000; font-weight:bold; }
+
+.weak { font-weight: lighter; }

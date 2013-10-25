@@ -1,0 +1,4 @@
+AuthName "MySQLDumper"
+AuthType Basic
+AuthUserFile "C:/inetpub/wwwroot/admin/backup/.htpasswd"
+require valid-user
