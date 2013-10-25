@@ -1,0 +1,12 @@
+#!/bin/sh
+
+if test -f "$1"
+then
+cp $1 $HOME/$1.tmp
+$EDITOR $1
+rm -i $HOME/$1.tmp
+else
+echo "File not found, try again."
+fi
+exit 0
+$_

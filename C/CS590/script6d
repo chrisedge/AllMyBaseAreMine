@@ -1,0 +1,19 @@
+# greet1
+#
+echo "Enter the present time:\c"
+read chour
+if test "$chour" -le 12 
+then
+   echo "GOOD MORNING:$chour"
+elif test "$chour" -le 18 
+then
+   echo "Good AfterNoon:$chour"
+else 
+   echo "GooD EVENING:$chour"
+fi
+echo
+exit 0
+
+$_
+
+

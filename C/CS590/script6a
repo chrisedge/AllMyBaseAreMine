@@ -1,0 +1,15 @@
+# test.script
+#
+echo "Are you OK?"
+echo "Input Y for yes or N for no: \c"
+read answer
+if test "$answer" = Y
+then
+   echo "Glad to hear that"
+else
+   echo "I am sorry! Better go home!!!!"
+fi
+echo
+
+$_
+

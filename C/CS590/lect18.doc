@@ -1,0 +1,463 @@
+  Lect#18      UNIX & C       Spring96
+  
+  Reference Books:
+  
+  1. UNIX shell programming (Revised edition)
+      Stephen G. Kochan and Patrick H. Wood
+      Hayden Books, 06-672-48448-X
+  
+  2.  UNIX Applications Programming: Mastering the Shell
+       Ray Swart
+       SAMS Publishing, ISBN 0-672-22715-0
+  
+  Exploring shell programming:
+  
+Comments:  Documentation is important while writing computer programs, and
+writing a shell script is no exception. Documentation is essential to
+explain the purpose and logic of the program, and variables used.  
+-- the shell recognizes # as the comment symbol; therefore, characters
+after the # symbol are ignored during execution of the script. 
+  
+Variables:  Like other programming languages, the UNIX shell also lets you
+create variables to store values.  e.g.:  variable=value count=1,
+header="Menu" 
+--> Important Note:  spaces are not permitted on either side
+of the equal sign. 
+  
+Command-line parameters:  The shell scripts can read upto ten command line
+parameters (arguments) from the command-line into the special variables
+(also called as positional variables). Command-line arguments are the
+items you type after the command, usually separated by spaces. These
+arguments are passed to the program and change the behavior of the program
+or make it act in a specific order. The special variables are numbered in
+sequence from 0 to 9 (no number 10) and are named $0, $1, #2, and so on. 
+  
+  List of special (positional) variables:
+  
+        Variable              Meaning
+  
+     $0        Contains the name of the script, as typed on the command-line
+     $1, $2, ...$9  Contains the first through ninth command-line parameters
+     $#        Contains the number of command-line parameters
+     $@        Contains all command-line parameters: "$1" "$2"......"$9"
+     $?        Contains exit status of the last command
+     $*        Contains all command-line parameters: "$1 $2 $3.........$9"
+     $$        Contains the PID number of the executing process
+  
+Conditions & Tests:  You can specify that certain commands be executed
+depending on the result of other commands' execution. Every command
+executed in the UNIX system returns a number (event number) that you can
+test to control the flow of your program. A command either a 0, which
+means success (condition being TRUE), or it returns any other number,
+which indicates failure(condition to be FALSE). These true and false
+conditions are used in the shell programming constructs and are tested to
+determine the flow of the program. (e.g.: if-then, elif-then, else, fi
+commands or case/esac command)
+  
+test command (True/False):  The test command is a built-in shell command
+that evaluates the expression given to it as an argument and returns true,
+if the expression is true (returns 0), or, otherwise, false (returns a
+non-zero). 
+  
+  The test command numeric test operators:
+  
+  Operator     Example             Meaning
+  -eq          num1 -eq num2  is num1 equal to num2?
+  -ne          num1 -ne num2  is num1 not equal to num2?
+  -gt          num1 -gt num2  is num1 greater than num2?
+  -ge          num1 -ge num2  is num1 greater than equal to num2?
+  -lt          num1 -lt num2       is num1 less than num2?  
+  -le          num1 -le num2  is num1 less than or equal to num2?
+  
+  The logical operators are as follows:
+  
+* Logical and operator (-a): The test command returns 0 (condition code
+true) if both expressions are true.  
+* Logical or operator (-o): The test
+command returns 0 (condition code true) if one or both expressions are
+true.  
+* Logical not operator (!): The test command returns 0 (condition
+code true), if the expression is false. 
+  
+  The test command string test operators:
+  
+  Operator          Example        Meaning
+  
+  =       string1 = string2   Does string1 match string2?
+  !=      string1 != string2  Does string1 not match string2?
+  -n      -n string           Does string contain characters?
+                         	(non-zero length)
+  -z      -z string      is string an empty string? (zero length)
+  
+  The test command file test operators:
+  
+  Operator     Example        Meaning
+  -r      -r filename    Does filename exist and is it readable?
+  -w      -w filename    Does filename exist and is it writable?
+  -s      -s filename    Does filename exist and have a non-zero length?
+  -f      -f filename    Does filename exist, but is not a directory file?
+  -d      -d filename    Does filename exist and is it a directory file?   
+  
+Parameter substitution:  The shell provides a parameter substitution
+facility that lets you test the value of a parameter and change its value
+according to a specified option. This is useful is shell programming, when
+you want to check whether a variable is set to something. 
+
+--> The format consists of a dollar sign ($), a set of braces ({ }), a
+variable, a colon (:)an option character, and a word, as follows: 
+     ${parameter:option character word} 
+--> An option character determines
+what you intend to do with the word. The 4 option characters are specified
+by -, =, ?, and + signs. These 4 options perform differently depending on
+whether the variable is an empty variable. 
+  
+e.g: Suppose you want to change the nature of file called memo, specified
+in the variable called FILE, to memoX.
+  
+  1. ${parameter}
+     $echo $FILE [Return]               .. check what is stored in FILE
+     memo
+  
+     $mv $FILE  ${FILE}X [Return]  .. change memo to to memoX
+     $_                       .. Job done, prompt is back!!
+  
+  2. ${parameter:+word}
+     $ HELP= "wanted" {Return]          .. set HELP variable
+     $echo  ${HELP:+"Help is under way!!"} [Return]
+     Help is under way!!
+     $echo $HELP [Return]          .. check the help variable
+     wanted                        .. it remained the same
+     $_                       done, prompt is back..........
+  
+Loop constructs:  You use the loop constructs in programs when you want to
+repeat a set of statements or commands. The loop constructs save a lot of
+time for you. The shell provides 3 looping constructs: for-loop,
+while-loop and until-loop. 
+  
+  1. The for-loop: The for-in-done construct: 
+The for-loop is used to execute a set of commands for a specified number of
+times: The basic format is: 
+     for variable
+     in list-of-values
+     do
+          commands
+           ..........
+          last command
+     done
+  
+  e.g.:   $for count in 1 2 3 [Return]
+     >do [Return]
+     >echo "In the loop for $count times" [Return]
+     >done
+  
+  2. The while-loop: The while-do-done construct: Unlike the for-loop,
+whose number of iterations/repetitions depends on the the number of values
+in the list of values, the while-loop continues as long as the loop
+condition is true. The format as given below: 
+     while [condition]
+     do
+          commands
+          .........
+          last command
+     done
+  
+  3. The until-loop: The until-do-done construct: The until-loop is
+similar to the while-loop, except that it continues executing the body of
+the loop as long as the condition of the loop is false (non-zero). The
+until-loop is useful in writing scripts whose execution depends on other
+events occuring. 
+     until [condition]
+     do
+          commands
+          ............
+          last command
+     done
+  
+Debugging shell programs/scripts:
+  
+You can use the sh command with one of its options to make the debugging
+of your script files easier. The sh command options are: 
+  
+  Option            Operation
+  
+  -n      reads commands but does not execute then
+  -v      shows the shell input lines as they are read
+  -x      shows the commands and their arguments as they are executed
+          (the trace of your script execution/echo each command as executed)              
+
+UNIX Programming Utilities:
+  
+It is important to note that, UNIX provides you with utilities to help you
+organize your program development process. These utilities become
+especially useful and important when you are developing large-scale
+software. 
+  
+1. Language compilers: FORTRAN, Pascal, C 
+2. The make utility:  This
+utility is useful when your program is comprised of more than one file.
+make automatically keeps track of the source files that are changed and
+need re-compilation, and relinks your programs if required. The make
+program gets its information from a control file. The control file
+contains rules that specify source file dependencies and other
+information. 
+3. The SCCS Utility: The SCCS(Source Code Control System) is
+a collection of programs that helps you to maintain and manage the
+development of your program. If your program is under SCCS control, then
+you can create different versions of your program easily. The SCCS keeps
+track of all the changes among different versions. 
+  
+  UNIX Internals: The signals:
+  
+How do you terminate a process? The answer is, you terminate a process by
+generating an interrupt signal. A 'signal' is a report to your process
+about a specific condition. For example, [Del], [Break], and [^C] are used
+to send an interrupt signal to a process, so it terminates. Some of the
+shell signals are: 
+  
+  Signal# Name      Meaning
+  
+  1       hang up   Terminal connection is lost
+  2       interrupt One of the interrupt key is pressed
+                    (e.g.: [Ctrl-C], [Del] or [Break] keys)
+  3       quit      One of the quit key is pressed (e.g.: [Ctrl-\]
+          ** This causes the process to 'core dump' before it terminates.......
+  9       kill      The kill -9 command is issued
+  15      terminator     The kill command is issued
+  
+Trapping the signals: The trap command
+  
+The default action taken by your process when it receives any of the
+signals is immediate termination. You can use the trap command to change
+the process default action to whatever you specify. The format is: 
+     trap 'optional commands' signal numbers
+  --> The commands that are specified to the trap command MUST be enclosed in
+  single or double quotation marks. 
+--> You can specify more than one
+signal number to be trapped. The signal numbers are the numbers associated
+with the signals that you want the trap command to catch. 
+  e.g.:   trap "echo I refuse to do my homework!" 15
+  
+Resetting the traps:
+  
+Issuing the trap command in your script changes the default actions of the
+signals received by your process. Using the trap command, without the
+optional commands part, changes the specified signals to their default
+actions. 
+  e.g.: If you type the following command in your script file:
+     $trap " " 2 3 15
+     the interrupt, quit, and kill commands are ignored.
+     If you type:
+     $trap 2 3 15 
+the specified signals are reset. That is to say, the
+interrupt, quit, and kill keys are restored. 
+  
+Setting terminal options: The stty command
+  
+Use the stty command to set and display terminal characteristics. You can
+control various characteristics of your terminal, such as the baud rate
+(rate of transmission between the terminal and the computer), and the
+functions of certain keys (interrupt, quit, kill etc). The stty command
+without arguments shows a selected group of settings. Use -a option to
+list all of your terminal settings. 
+  
+  A short list of terminal options
+  
+  Option            Operation
+  
+  echo [-echo] 	  Echoes [does not echo] the typed characters, default being
+		   echo
+  raw [-raw]        Disables [enables] the special meaning of the metacharacters.
+               ( default is -raw)
+  intr            Generates an interrupt signal, usually the [Del] key is used
+  erase             (backspace) erases the preceeding character.
+               (usually [#] key is used)
+  kill              Deletes the entire line, usually [@] or [Ctrl-u] is used
+  eof               Generates the EOF (end-of-file) signal from terminal
+               (usually [Ctrl-d] is used
+  ek           Resets the erase and kill keys to [#] and [@] respectively
+  sane           sets the terminal characteristics to sensible default values
+  
+The terminal database: The terminfo file
+  
+Each terminal supported in your system has an entry in the terminal
+database (file) called terminfo file. The terminfo database is a single
+text file that contains descriptions of many types of terminals. For each
+terminal in the database, there is a list of capabilities associated with
+that terminal. 
+  
+Setting the Terminal capabilities: The tput command
+  
+The tput utility, which is standard on any system with the terminfo
+database, lets you print out the values of any single capability. This
+makes it possible to use terminals' capabilities in shell programming. 
+     e.g.:     $tput clear [Return]          .. clears the screen
+  You can override the default TERM shell variable with -T option.
+  
+  A short list of terminal capabilities
+  
+  Option            Operation
+  
+  bell         Echoes the terminal's bell character
+  blink        Makes blinking display
+  bold         Makes bold display
+  clear        Clears the screen
+  cup rc       Moves cursor to the row r and column c
+  dim          Dims the display
+  ed      Clears from the cursor position to the end of the screen
+  el      Clears from the cursor position at the end of the line
+  smso         Starts stand out mode
+  rmso         Ends stand out mode
+  smul         Starts underline mode
+  rmul         Ends underline mode
+  rev          Shows reverse video, black on white display
+  
+  --> Usually when you start a mode, it remains in effect until you remove it.
+  --> You can store the character sequences in variables and then use the
+	variables. 
+  
+  e.g.:   $tput clear [Return]          .. clears the screen
+     $tput cup 10 20 [Return] .. positions the cursor
+     $echo "The Terminfo Database" [Return]  .... displays the message
+     $bell='tput bel' [Return]     .. stores the character sequence for bell
+  
+                
+  UNIX Process Management:
+  
+In order to keep track of the processes in the system, UNIX creates and
+maintains a process table for each process in the system. The process
+table (PT) contains the following information: 
+     * Process number
+     * Process status (ready/waiting)
+     * Event number process is waiting for
+     * System data area address
+  
+A process is created by a system routine called fork (fork() ). A running
+process calls fork, and in response UNIX duplicates that process, creating
+two identical copies. The process that calls the fork routine is called
+parent, and the copy of the parent created by fork is called child. UNIX
+differentiates between the parent and child by giving them different
+process ID's (PIDs). 
+  
+  The following steps are involved in managing a process:
+  
+* The parent calls fork, thus starts the process.  
+* Calling fork is a system call. UNIX gets control, and the address of the
+calling process is recorded in the process table's system data area (called
+as return address), so the parent process knows where to start later when
+it gets control again.  
+* fork duplicates (copies) the process and control returns
+to parent. 
+* The parent receives the PID of the child, a positive integer
+number, and child receives the return code 0. (A negative code means an
+error!!) 
+* The parent receiving a positive PID calls another system
+routine called wait and goes to sleep. Now the parent is waiting for the
+child process to finish (in UNIX terminology, waiting for the child to
+die...) 
+* The child process gets control and begins to execute. It checks
+the return code; because the return code is 0, the child process calls
+another system routine called exec (exec() ). The exec routine responds by
+overlaying the child process area with the new program. 
+* The new program's first instruction is executed. When the new program
+gets to the end of the instruction, it calls yet another system routine
+called exit, and thus the child process terminates/dies. The death of the
+child awakens the parent, and the parent process takes over... 
+  
+  Some goody goody UNIX stuff:
+  
+  1. Finding available disk space: The df command You can use the df (disk
+free) command to find the total amount of disk space or the space
+available on a specified file system. Using the -t option makes the df
+include the total number of blocks in the file system in the output. 
+  
+  2. Summarizing Disk Usuage: The du command You can use the du (disk
+usage) command to obtain a report that includes each directory in the
+file system, the number of blocks used by the files in that directory, and
+its subdirectories. The du command options: 
+  
+  Option            Operation
+  
+  -a      Displays the directories and file sizes
+  -s      Displays only the total blocks for the specified directory; subdirectories
+  are not listed.
+  
+  3. Finding files: The find command You can use the find command to
+locate files that match a given set of criteria in a hierarchy of
+directories. The criterion may be a filename or a specified property of a
+file (such as its modification date, size or type). The find command
+search options: 
+  
+  Option            Description
+  
+  -name filename    Finds files with the given filename
+  size +-n          Finds files with the size n
+  -type filetype         Finds files with the specified access mode
+  -atime+-n         Finds files that were accessed n days ago
+  -mtime +-n        Finds files that were modified n days ago
+  -newer filename   Finds files that were modified more recently than filename
+  
+  The +n notation is the above table is a decimal number that can be
+specified as +n (meaning more than n) or -n( meaning less than n) or n
+(meaning exactly n).
+  
+  4. Displaying the end-of-a-file: The tail command You can use the tail
+command to display the last part (the tail end) of a specified file. The
+tail gives you a quick way to check the contents of a file. The tail
+command options: 
+  
+  Option       Operation
+  
+  b       This option causes tail to count by blocks
+  c       This option causes the tail to count by characters
+  l       This option causes the tail to count by lines
+  
+  5. Displaying Banners: The banner command
+  
+You can use the banner command to produce output in large letters. It
+displays its arguments (10 characters or less) on the standard output, one
+argument per line. This is useful to create banners, signs, report titles,
+etc. 
+  
+  6. Running commands at a later time: The at command
+  
+You use the at command to run a command or list of commands at a later
+time. You can specify the time and date part of the command in various
+formats. 
+  
+  e.g.:   $at 1445 Tues [Return]
+     $ at 0930 am Sep 18 [Return]       or    $at 11:10 am tomorrow [Return]
+  
+  7. Spelling error: The spell command
+  
+You can use the spell command to check the spelling of the words in your
+document. The spell command compares the words in a specified file against
+a dictionary (US English) file. 
+  e.g.:   $spell [Return]               ... No argument specified
+     looking good             .. input is from keyboard
+     ^D
+     looking good
+     $_                  .. and the prompt is back
+  
+  or
+     $spell my_doc > bad_words [Return]      .. spell check my_doc
+  
+  
+  
+  UNIX Security:
+  
+Information and computer time are valuable that require protection. System
+security is a very important part of multiuser systems. There are various
+aspects of system security to consider: 
+    * keeping unauthorized people from gaining access to the file system
+    * keeping an authorized user from tempering with the system files or
+other user files
+    * granting some users with certain privileges
+  
+  Security on the UNIX system is implemented by using simple commands, and the
+  system security can be as lax or tight as you desire. Most important of
+all are: 
+  
+     1. Password security
+     2. File security
+     3. Directory permissions - read/write/execute
+     4. File encryption - crypt (encode/decode)                            

@@ -1,0 +1,127 @@
+  Lect#10           UNIX & C       Spring96
+  
+  Searching through files:
+  
+  1. Basic searches with grep command
+  2. grep with multi-word strings
+  3. Searching more than one file
+  4. Searching for lines without a certain string
+  
+  --> Many people find that they want to search for a certain string of
+text within a file, but they would prefer not to look at the entire file to
+find it. 
+  ---> grep is the answer to those worries!!!
+  
+  grep (global regular expression printer) searches through a file or
+files for the string, or expression, that you specify.
+  
+  Basic searches with grep command:
+  
+  To search for a particular character string in a specified file, use the
+grep command: 
+  
+          ace -> grep  cc cs590projects           <-- single pattern
+  or      ace -> grep  a cs590projects          <-- more than one string
+  or      ace -> grep qzhan vnorth wlamb
+  
+  Searching for more than one file: (a directory)
+  
+     ace -> pwd
+     ace -> ls
+     ace -> grep a *
+  
+  When you have a directory of files, and you want to search for a
+specific string in all of them, type grep followed by *, the wild card
+characters for a string of arbitrary length. 
+  
+  Searching for lines without a certain string: (files that don't contain
+a certain string)
+  
+  --> use the -v option to grep command.
+  e.g.:   ace -> grep -v k *       .......... files that don't contain letter k 
+  
+ Time Saving features:
+  
+     1. Aliases
+     2. the History mechanism:     - command repetition & substitution
+          - shorthand ways of typing many commands
+     3. Running commands in the background
+     4. A procedure to instruct the system to execute multiple
+        command-lines at the same time.........
+  
+  Time saving features can make your work quicker and easier.
+  
+  1. You can use alias command to develop a shorthand for commands that
+you type frequently. Since you probably type the logout command (presume
+that not using ^D) every time you end your work session, you can use an
+abbreviated command. 
+  
+     ace ->  alias lo logout
+     ace -> lo
+     c:\>
+  
+--> When you type the lo alias for the logout command, the system
+interprets it as if you had typed logout, and logs you out!!
+  
+2. The UNIX environment (SunOS) stores the commands you type using a
+history mechanism. You can reuse the commands you have typed with command
+repetition and command substitution.
+  
+1. Command Repetition: Allows you to repeat previous command lines or
+parts of previous command lines.The two most common commands are: !! and !$
+  
+  !! repeats the entire last command line you entered.
+  
+     ace -> ls
+          ... displays the directory............. 
+     ace -> !!
+          ... the directory is displayed,again................
+  
+  !$ repeats the last word on the previous command line.
+  
+You can type both !! and !$ anywhere in the current command-line to repeat
+all or a portion of the previous line.
+  
+2. Command Substitution: Sometimes you may want to repeat a previous
+command-line, but change a portion of it, perhaps to correct a mistake or
+to complete a repetitive task. Command substitution, a basic form of
+command editing, is useful for such corrections and tasks.
+  
+  For example, when you want to make a directory called animals, you
+should type mkdir animals. But, if you make a mistake, you can correct your
+mistake with the command substitution symbols, ^ ^, the hat/caret characters.
+  
+     ace -> mdkir animals
+     mdkir: Command not found
+     ace -> ^dk^kd
+     mkdir animals
+     ace -> ls
+     News  animals
+     ace ->
+  
+  --> You can successfully correct the error with command substitution,
+and the system makes the directory animals.
+  
+  --> To use the command substitution for repetitive tasks, consider that
+you may want to make 4-5 directories. You already have animals directory.
+Here is an easy way to create the rest of them.................
+  
+     ace -> mkdir plants
+     ace -> ^plants^algi
+     ace -> ^algi^fungi
+     ace -> ^fungi^protistans
+     ace -> ls
+     News animals  plants
+     algi fungi     protistans
+  
+  3. Running Commands in the Background:
+  
+  Another way to save your time is by running commands in the background,
+one aspect of job control. In fact, you can run several commands in the
+background at once.
+  
+  To run a command in the background, type the ampersand character &, at
+the end of the command-line.
+  
+     ace ->    spell project2a.c > project2a.err  &  
+  

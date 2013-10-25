@@ -1,0 +1,10 @@
+#    read_test.script
+#
+#    A simple script to test the read command
+#
+echo "Enter your name....:\c"
+read name           # read the user response
+echo "Your name is $name"
+echo
+
+$_

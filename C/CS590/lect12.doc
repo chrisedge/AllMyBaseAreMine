@@ -1,0 +1,199 @@
+  Lect#12      UNIX & C  Spring 1996
+  
+  The UNIX Shell
+  
+  The UNIX operating system consists of two parts: the kernel and the utilities.
+  
+  --> The kernel is the heart of the UNIX system and is memory-resident
+(which means that, it stays in the memory from the time you boot/start the
+system until the system is shutdown). All the routines that communicate
+directly with the hardware are concentrated in the kernel.
+  ---> In addition to the kernel, other essential modules are also memory
+resident. These modules perform important functions such as I/O control,
+file management, memory management, process-time management, etc.
+Additionally, UNIX maintains several memory-resident tables for
+house-keeping purposes, to keep track of the system's status.
+  --> The rest of the UNIX system resides on the disk and is loaded into
+the memory ONLY when necessary. Most of the UNIX commands you know are
+programs (utilities) that reside on the disk. For those programs, when the
+user types a command (request the program to be executed), the specified
+program is loaded into the memory. 
+  
+  The user communicates with the operating system through a shell, and
+hardware-dependent operations are managed by the kernel.
+  
+  Shell itself is a program (or utility). It loads into memory whenever
+you login to the system. When the shell is ready to receive commands, it
+displays a prompt. The shell itself does not carry out most of the commands
+that user types; it examines each command and starts the appropriate UNIX
+program that carries out the requested action.
+  
+Shell determines what program to start (the name of the program is the
+same as the command you type) or prompt 'command not found'. Shell also
+contains several built-in commands. These commands are part of the shell
+itself and are recognized & executed internally. (e.g. pwd, cd, cat, and
+others).
+  --> The standard UNIX system comes with more than 200 utility programs.
+One of these is sh command, the shell itself!!
+  
+  Shell Major functions:
+  
+  Shell is a sophisticated program that manages the dialogue between the
+user and the UNIX system. The shell is a regular executable C-program that
+is usually stored in /bin directory.
+  --> One of the most commonly used shell programs is Bourne shell; stored
+under the name sh in the /bin directory. When you login, an interactive
+Bourne shell is invoked automatically. However, you can invoke the shell
+(another copy of it) by typing sh command.
+  
+  Shell includes the following major features:
+  
+1. Command execution:  Command (program) execution is a major function of
+the shell. Just about anything you type at the prompt is interpreted by
+the shell. When you press [Return] at the end of the command-line, the
+shell starts analyzing your command; if there are filename substitution
+characters, or I?O redirection signs, it takes care of them, and then
+executes the appropriate program. 
+  
+2. Filename substitution: If filename substitution (also called as
+filename generation) is specified on the command-line, then the shell
+first performs the substitution and then executes the program. 
+  
+3.  I/O redirection: The input/output redirection is handled by the shell.
+The redirection is setup before the command is executed. 
+  
+4. Pipes: Also called as pipelines, let you connect simple programs
+together to perform a more complex task. The vertical line on the keyboard
+[ | ] is the pipeline operator. 
+  
+5.  Environmental control: The shell lets you customize your environment
+to suit your needs. By setting the appropiate variables, you may change
+your home directory, prompt sign, or other aspects of working environment. 
+  
+6. Background processing: The background processing capability of the
+shell enables you to run programs in the background, while doing other
+jobs in the foreground. This is helpfil for time-consuming &
+non-interactive programs. 
+  
+7. Shell scripts: Commonly used sequence of the shell commands can be
+stored in files called shell scripts. The name of the file can later be
+used to execute the stored program, enabling you to execuate the stored
+commands with a single command!! Shell also includes language constructs
+that allow you to build shell scripts that perform more complex jobs. 
+  
+  Some of the shell commands:
+  
+1. The echo command: User can use the echo command to display messahes. It
+displays its arguments on the terminal/screen, the standard output device.
+Without argumane it produces an empty line; and by default appends a new
+line to the end of the output. 
+  
+2. The shell metacharacters have a special meanings to the shell. You can
+override those by using some special characters, like: 
+     * backslash [\]
+     * single quotation mark [']
+     * double quotation mark ["]
+  
+  Shell Variables: 
+  
+Shell variables are named items you set to values to control or customize
+your UNIX environment. Two types of variables: environmental & local. 
+  
+Environmental Variables (EV): Also known as standard variables; have names
+that are known to the system. EV are used to keep track of the essential
+things and are usually defined by the System Manager.  
+For example:  TERM = vt100 for terminal
+  
+Local Variables (LV): Theses are user-defined varibales. LV are entirely
+under the user's control. You can define, change, or delete them as you
+like. 
+  
+Use the set command, to find out what shell variables are set for your
+shell to use. Important to note that, the names of the standard variables
+on the left of the equal sign (=) are in UpperCase letters. This is not a
+requirement. You can use all lowercase or mixture-cases for the variable
+names. The right side of equal sign (=) is the value assigned to the
+variable. You can assign characters, digits, and the underscore characters
+in the variable name, but hte first letter MUST be a characters, and not a
+digit!! 
+  
+  Use the unset command to remove an unwanted variable.
+  
+  Standard shell variables:
+  
+1. HOME:  When you login, shell assigns the full pathname of your home
+directory to the variable HOME. The HOME variable is used by several UNIX
+commands to locate the home directory. For example, the cd command with no
+argument checks this variable to determine the pathname to the home
+directory and then sets the system to your home directory. 
+  
+2.  IFS:  The Internal Field Separator (IFS) variable is set to a list of
+characters that are interpretted by the shell as separators of
+command-line elements (e.g.: ls -l). Other separator characters for IFS
+are tab and [Return]. The IFS characters are invisible (non-printable)
+characters. 
+  
+3.  MAIL:  The MAIL variable is set to the filename of the file that
+receives your mail (mbox). Mail sent to you is stored in this file, and
+shell periodically checks the contents of this file to notify you if there
+is any mail. 
+  
+4. PATH:  The PATH variable is set to the directory names that the shell
+searches for the location of the commands in the directory structure. 
+  
+5. PS1: The Prompt String 1 (PS1) variable is set to the string used as
+your prompt sign. The Bourne shell primary prompt sign is set to dollar
+sign ($). You can change the prompt to what you like by assigning a
+character of choice to PS1. 
+  
+6. PS2: The Prompt String 2 (PS2) variable assigns the prompt sign that is
+displayed whenever you press [Return] before completion of the
+command-line and shell expects the rest of the command. 
+  
+7. CDPATH:  The CDPATH variable is set to a list of absolute pathnames,
+similar to the PATH variable. 
+  
+8. SHELL:  The SHELL variable is set to the full pathname of your login
+shell. 
+  
+9. TERM:     The TERM variable is set to your terminal type. (e.g.: TERM=vt100)
+  
+10. TZ: The TZ variable sets the time zone that you are in.
+          (Usually, set by the SM)
+  
+  More UNIX Utilities:
+  
+1. The sleep command: Timing a delay - This command causes the process
+execution to go to sleep for a specified number of seconds. 
+  
+2. The ps command: The process status command - You can use this command
+to obtain the status of the active processes in the system. When used
+without any options, it displays the following in 4 columns: 
+     * PID : the process ID number
+     * TTY: your terminal number that controls the process
+     * TIME: time duration (in seconds) that your process is running
+     * COMMAND: the name of the command
+  
+3. The nohup command: Keep on running command - When you logout, your
+background processes are terminated. The nohup command causes your
+background processes to be immune to terminating signals. 
+  
+4. The kill command: Terminating a process - Not all programs behave
+normally all the time. A program might be stuck in an infinite loop or be
+waiting for resources that are not available, making your process
+hungUp!!, your printer spitting non-stop garbage prints, or your keyboard
+may be lockedUP too!!!! UNIX provides with the kill command to terminate
+the unwanted process (process is a running number) The kill command sends
+a signal to the specified process. The signal is an integer number
+indicating the kill type, and the process is identified by the process ID
+number with ps command. 
+  
+5. The tee command: Splitting the output - You can see the output on the
+screen as well as save it in a file for later reference with this command. 
+  
+6. The grep command: The global regular expression print command is used
+for searching a pattern in a file or a list of files. 
+  
+7. The sort command: This command sorts the contents in the file into
+alphabetical order
+

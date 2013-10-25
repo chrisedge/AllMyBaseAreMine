@@ -1,0 +1,239 @@
+  Lect#19      UNIX & C       Spring96
+  
+  Treasure of UNIX related Questions & Answers...................
+  
+Q1. What are some of the features that distinguish the C-shell from the
+Bourne shell? 
+  
+A.  The C-shell has a history facility, by which you can recall command
+lines that were previously executed. You can then repeat those command
+lines or modify them and execute the modified version. In addition,
+C-shell provides a job control capability that gives the user the ability
+to exert more control over his/her background processes. 
+  
+Q2.  What is the command that you can use to change your default shell?
+Where is the C-shell usually found on UNIX systems? 
+  
+A.  The command used to change your default shell is: chsh. To use this,
+you give it a single argument, which is the pathname of the shell that you
+want to have as your new default. On most systems, the C-shell is in
+/bin/csh (Typically BSD) or /usr/bin/csh (Typically SVR4). 
+  
+Q3.  How can you quickly repeat the last command that you entered?
+  
+A.  The quickway to do that is with the history recall of !!. All history
+substitutions begin with the exclamation, or bang, character (!), and the
+second exclamation mark is a short hand for the previous command. 
+  
+Q4.  How can you make a quick change of one word of the last command and
+rerun it?
+  
+A.  The substitution character is the caret (^). Enclose first the string
+you want to change in carats, followed by the string to replace it with,
+and a closing carat (e.g.: ^change_this^to_that^). The first occurence of
+the search string will then be replaced by the second, and the resulting
+command-line will then be executed. 
+   
+Q5. What is the difference between the use of the semicolon (;) and the
+pipe (|) as separators between commands? 
+  
+A:  The semicolon metacharacter connects sequentially executed commands,
+permitting you to enter more than one command on a line. It is also used
+within the parentheses metacharacters as a separator. There is no direct
+interaction between one command and the next when the semicolon is used as
+a separator. 
+  
+       The pipe metacharacter establishes a connection between two
+commands, where the output of the first command becomes the input to the
+second command. The two commands run concurrently, as opposed to
+sequentially as with the semicolon metacharacter.
+  
+  Q6.  How do you place a command in background?
+  
+  A.    Any command can be executed in background simply by ending the command-
+  line with the ampersand (&) metacharacter. This indicates the C-shell that the
+  command should be processed in background. Not all commands are good for
+  background processing. Any command that requires input from stdin or output to
+  stdout will stop when input is needed and will output information back
+to the screen, as it is running. To avoid these problems, use file
+redirection, with < for input and >
+  for output, to give the command alternates for stdin & stdout.
+  
+  Q7.  Why are files that begin with a dot (.), salient or hidden, not
+found with the asterik (*) metacharacter?
+  
+A.  Because hidden files or the dot files are rarely of interest and
+frequently cause problems when included on a command-line and processed by
+a command, the asterik metacharacter excludes matching the dot so that
+they are not part of the expansion. If you need or want to have these
+files on a command-line or in a directory list, use the expression .??* to
+get all but the files dot (.) and dot dot (..)
+  
+  Q8.   Where should aliases be placed?
+  
+A.  Aliases should be put in your .cshrc startup file. Because they are
+not passeed on from one shell to the next, they need to be re-created for
+each shell that is started. The .cshrc file is read by each shell when it
+starts, so this is where you should put your aliases, letting each shell
+get a copy. 
+  
+  Q9.  How can you find out what aliases have already defined?
+  
+A.  Using the alias command by itself with no arguments displays a list of
+all of your current aliases. You may want to pipe the output from the
+alias command with more command, if you have many aliases defined. 
+  
+Q10.  When you define an alias, how can you include all of the arguments
+from the command-line in your alias? 
+  
+A.  When you create an alias that will require substituting arguments from
+the command-line, you can place the metacharacters !* at the point in the
+alias where you want the parameters to be inserted. Be sure to remember,
+to escape the exclamation character with a backslash. 
+  
+  Q11.  What is the difference between local and environment variables?
+  
+A.  Local variables affect only the shell in which they are defined. On
+the contrary, Environment variables are passed on to all shells, commands,
+and scripts that are started from the shell in which they are defined. 
+  
+  Q12.   How does the shell identify variables?
+  
+A.  Shell variables, both local and environment (global), begin their
+names with a dollar sign ($). There is no way to know whether a variable
+is local or global, other than by seeing which command displays its name
+and value--set (for local variables) or setenv (for global variables).
+Just to make the convention simpler & easier, use all uppercase letters in
+environment variables. 
+  
+  Q13.  Do the C-shell's built-in switch variables take on values?
+  
+A.  The answer is no. These variables have only 2 values ON/OFF or
+TRUE/False, meaning either exist or are set, or erased/deleted/ or unset. 
+  
+Q14.  Is there a specific command used for assigning expression results to
+variables in the C-shell? 
+  
+A.  The set command can be used for assigning constant values or the
+contents of another variable to a shell variable. If you want to need to
+assign the results of an expression, use the C-shell @ command to make the
+assignment. 
+  
+Q15.  How can you protect yourself from inadvertently terminating your
+login shell session? 
+  
+A.  The special built-in shell variable $ignoreeof acts as a switch to
+cancel the effect of the EOF character (Ctrl-D or ^D), from terminating
+any C-shell that is running. Setting this variable in your .login startup
+file will ensure that you can terminate your login shell ONLY with the
+exit command and not with ^D. 
+  
+Q16.  What are the names of the C-shell startup files and how are they
+used by the shell? 
+  
+A.  The C-shell has 2 official startup files, namely .cshrc and .login -
+The .cshrc file is read by any new C-shell process to set the environment
+for that shell. It typically contains alias definitions and local variable
+initializations. It can also contain environment variable setups as well.
+The .login file is read and processed by the user's login shell only at
+the start of a session. It typically contains environment variable (global)
+initializations as well as UNIX commands to setup terminal attributes. 
+  
+  Q17.  How can you change the format of your C-shell command prompt?
+  
+A.  The C-shell built-in variable $prompt contains the template for
+formatting the shell prompt. 
+  
+Q18.  How can you set a default terminal type, but be prompted with the
+option of overriding this default at login? 
+  
+A.  When you include the tset command in the .login startup file, it can
+establish a default terminal type (e.g.: vt100) as well as a prompt the
+user at login to change the type. The user can press [Return] to accept
+the default or override it with a valid terminal type. 
+  
+  Q19.  What do you do to indicate that you want file redirection?
+  
+A.  For the simplest form, you can use the metacharacters < and > to
+indicate input and output file redirections, respectively. Each of these
+metacharacters is followed by a filename that will be used for the source
+of input or destination of output. 
+  
+Q20.  How would you append output to a file rather than overwrite it with file
+redirection?
+  
+A.  The special metacharacter pair >> is used to append output to a file.
+The file MUST exist before the redirection operation. 
+  
+Q21.  If you have set the $noclobber shell variable, how do you override
+it to redirect output to a file without an error? 
+  
+A.  By adding an exclamation mark metacharacter (!) to any output
+file-redirection operator, you can specify that you want to override the
+effect of the $noclobber variable (e.g.: use >! or >>!). 
+  
+  Q22.  What is the difference between exit and logout?
+  
+A.  The exit command will pass a return value back to the calling process,
+as specified by the expression on the command-line. The exit command will
+always end a shell process, while logout is only valid for a login shell.
+More importantly, logout works ONLY with the login shell. 
+  
+Q23.  Why have a separate command login, when exec /usr/bin/login will do
+the same thing? 
+  
+A.  The login command is shorter to type, and login also allows you to
+pass your current environment to the new login environment with the -p
+option. 
+  
+Q24.  When you have started a long command, and you intend to put it in
+the background, how can you do that? 
+  
+A.  First, type Control-Z (^Z) at the terminal. This will suspend
+execution of the process without deleting the work done. Then type bg to
+place the process in the background. 
+  
+  Q25.  How will you know, when the process is complete?
+  
+A.  When you finish a command and a prompt is about to be issued, the
+C-shell will check to see if any jobs have changed their status. If so,
+will be notified. If you need immediate feedback, you can either set the
+notify variable or use the notify command to indicate that a process should
+notify you on status changes asynchronously.
+  
+  Q26.  What steps are required for building a large project?
+  
+A.  First, the problem needs to be clear. This allows a clean design and
+the breaking down of the problem into simpler tasks. Then, you solve each
+task separately, and finally you integrate the pieces into a complete
+program (That is Top-Down Design methodology...)
+  
+  Q27.  How is the source command used for integration?
+  
+A.  The source command allows the integrator to use each piece separately,
+and it avoids the problems of combining the pieces before testing. It also
+quick changes to each piece, without disrupting the whole testing process. 
+  
+Q28.  When you get a message on the screen that says' There are stopped
+jobs...'. What does this mean? 
+  
+A.  You have attempted to exit the C-shell while some of the jobs
+(programs) you were running were stopped. You should examine these jobs,
+using the jobs command, and either resume or kill the job before you exit
+the shell. 
+  
+Q29.  You have a job that has the status: Stopped (tty input). How do you
+fix this? 
+  
+A.  Check the job number. If it has a +, just type fg and the job will
+become the foreground job. Otherwise, type fg %number to bring the job to
+the foreground. 
+  
+Q30.  How can you see the commands as they are run, when you run a C-shell
+script? 
+  
+A.  Use -v option. Run the script like this:  csh -v scriptname. Each
+command is printed/displayed after variable expansion, but, before it is
+executed. 
+  
+  

@@ -1,0 +1,124 @@
+  Lect#15 UNIX & C       Spring96
+  
+  UNIX LAN's:
+  
+A UNIX local area network (LAN) can be configured in several different
+ways, and most versions of UNIX (including SVR4, or BSD4) can support all
+kinds of networking protocol suites and physical networking layers. 
+  
+SVR4 (AT&T), BSD4.3(SunOS), and other UNIX versions include a number of
+built-in programs and facilities for networking stand-alone UNIX
+workstations and PC's. Many networking vendors offer software compatible
+with each versions and streams(flexible communication paths between UNIX
+processes). 
+  
+BSD4.3 includes TCP/IP (Transmission Control Protocol/Internet Protocol)
+suite of networking protocols, running over Ethernet networks. TCP/IP
+supports: telnet software, ftp(file transfer protocol) and tftp(trivial
+file transfer protocol) software and other networking services. 
+  
+To this basic set of TCP/IP protocols, many UNIX vendors have added Sun's
+Networked File System (NFS), which distributes UNIX files across UNIX
+nodes on the network. 
+  
+Nevertheless, UNIX networks do not have to be based on Ethernet, TCP/IP ,
+or NFS. They can be based on just about any networking physical layers and
+topologies, networking protocols and operating systems (Novell
+Netware/AppleTalk), or even competing shared-file system software (AT&T
+RFS). However, all UNIX LANs do typically conform to a set of networking
+standards that have been agreed upon by the International Standards
+Organization (ISO). 
+  
+  What are your customization goals?
+  
+  Startup files:    -  .profile, .cshrc, and .login files
+  
+Regardless of which version of UNIX you are running, you will also use one
+of the popular UNIX shell. Each shell supports a set of hidden startup
+files that perform special customization and preference functions for your
+login account, each time you login. These files begin with a dot (.) in
+your directory listing when you use ls -a command. 
+  
+If you use the Bourne shell (mostly under SVR4-AT&T), then a default
+.profile hidden file was created for you with your UNIX login account.
+This hidden file contains commands that are executed at start-up (also
+called as startup script) to provide a particular UNIX environment. The
+default .profile will ultimately suite no one, although it's likely to be
+relatively innocuous. You will need to edit this text file to make it
+conform to your needs. The same holds true for the start-up file used by
+the C-shell (BSD4.3-Berkley), called .cshrc and .login files.  (Note: Your
+SM has already provided the best start-up files for you in Morton!!)
+  
+--> To understand how your current startup files affect your UNIX
+environment, type the print environment command: printenv and
+see............... 
+  
+--> Because UNIX is so powerful and so malleable, the best customization
+strategy is one based on moving-with-caution. Try out one change at a time
+to a startup file script (the list of commands found in any .login,
+.cshrc, or .profile file), or a shell variable (TERM, PS!, or printer..)
+or an environmental variable and see the difference!! 
+  
+  C-shell start-up files:
+  
+The C-shell, csh , is a command interpreter based on a command-line
+interface with a syntax reminiscent of the C-language. It provides a
+number of convenient features for interactive use that are not available
+with the standard SVR4 (Bourne) shell, including filename completion,
+command aliasing, history substitution, job control, and a number of
+built-in commands. Like the standard Bourne shell (sh), the C-shell
+provides variable, command, and filename substitution. 
+  
+What should go into the .login and .cshrc startup files has been the
+subject of much debate among UNIX experts, but, usually you place commands
+and definitions that will affect your entire C-shell in the .cshrc file.
+You place commands and definitions that affect your specific UNIX hardware
+in the .login file. The keyboard mappings and the screen characteristics,
+including whether or not a GUI or windowing system might be invoked at
+login, are especially important. 
+  
+  Bourne shell startup files:
+  
+The most common customization file for SVR4 users is .profile file. Use
+cat .profile to see the list of commands in that file on the screen.
+Common commands are: umask, stty and biff. 
+  
+The umask command:  It sets up the default file permissions for newly
+created files. umask applies to all files and directories created by the
+user, whether in their home directory or not. (e.g.: umask 002 or umask
+022)
+  
+If you later need to change the permission for a specific file, use chmod
+command. 
+  
+The stty command: This command sets up special terminal control characters
+for the particular kind of workstation monitor, or computer screen, or
+minicomputer/PC and keyboard you are using. This goes with setting Ctrl-H
+or D operations. For example, enter stty erase ^H for the same action of
+Ctrl-H (^H or ^D). 
+  
+The biff command: Another command that you may want to add to your startup
+file is to tell you when a new electronic mail has been received. - alerts
+you of the incoming mail even during your work/process. To turn this
+command off, type biff n. 
+  
+To keep you from blowing away an important file, the C-shell provides a
+variable called noclobber. Simply set it with set noclobber command in
+your .cshrc file. This prevents you from accidental erases or overwriting
+any output on to an existing file, although you may still append to an
+existing file. 
+  
+UNIX pipes are interprocess communication channels that both users and the
+system can control. Pipes connect any two UNIX commands so that the output
+from one feeds directly into the input of the other. A pipe is represented
+by a vertical bar (|). 
+  
+A filter is any UNIX command setup in which one command or program takes
+its input directly from another program - linked commands or actions. 
+  
+  
+  
+  
+   
+  
+  

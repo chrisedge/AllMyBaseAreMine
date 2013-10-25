@@ -1,0 +1,110 @@
+  Lect#17      UNIX & C       Spring96
+  
+  UNIX Graphical User Interface (GUI):
+  
+This discussion does not aim teach you how to use X-Windows or any other
+GUIs. Nor addresses an indepth comparison of all UNIX GUIs available. -->
+For that knowledge, you MUST rely on the training documentation offered by
+the UNIX vendor, workshops & training programs, or on third-party books
+devoted totally to a specific GUI, and on articles in magazines and
+training videos & CD's. Bottom-line is, UNIX managers and users be aware
+and make appropriate informed decisions about choosing, using , and
+profiting from UNIX in their work environment. 
+  
+When you buy almost anyone's UNIX these days, you will get a GUI as a part
+of the deal. When you buy Sun's SOLARIS, you will get OpenWindows; when
+you buy NeXTStep, you will get NeXTStep GUI; when you buy A/UX, you will
+get the A/UX Finder; and so on. The different flavors of UNIX and these
+many versions of GUI are crucial on the basis of informed consent. It is
+important to know the history of UNIX GUI's. Although you may little choice
+or no choice-at-all, but to accept the GUI supplied with your version of
+UNIX, you should at least know, what it might be missing! This knowledge
+helps to develop a critical mindset so you can approach UNIX as though it
+were any other operating system. 
+  
+A comparative knowledge of GUI's will also when you replace an existing
+UNIX system or when your vendor decides to offer and support additional
+GUIs you might consider installing (compatibility). 
+  
+It is easy to think of GUIs and say ''Mac or MicroSoft Windows on a PC".
+Although the Mac and Windows may have popularized the term "GUI" for
+legions of Mac/PC users, the graphical user interface have been around for
+years on UNIX based computers, and now can be found improving virtually
+all flavors of UNIX including SVR4 and BSD4.3
+  
+--> A UNIX GUI simplifies the use of computing environment. Click of a
+mouse, drag-and-drop, iconized application folders and
+programs................. With each UNIX GUI you can always pop-up a
+terminal window that lets you issue UNIX commands directly to a shell. 
+  
+--> Typically, GUIs are customized on UNIX by special salent/hidden files
+that you place in your home directory, along with calls to the specific
+windowing system or GUI placed on your start-up files (e.g.: .profile,
+.login, and/or .cshrc files). These special files have names like
+.XTermDef and .MotifPref. 
+  
+--> GUI vendors will supply all the special hidden files you need, and
+make the necessary modifications to your start-up files (like
+configuration files) so their GUI fires up system start-up or whenever you
+want to use it. 
+  
+  X-Windows: The foundation of UNIX GUIs:
+  
+UNIX GUIs consist of two basic types: (1) graphical environments that
+provide users with built-in-graphical controls for all system functions;
+and (2) graphical shells or windowing systems that provide graphical
+controls of applications, but require that system settings be performed
+through a shell window. In effect, they insulate the UNIX user from the
+technical foundations of the operating system. 
+  
+Some products, such as Sun's OpenWindows, provide a full graphical
+environment that can control and operate UNIX without the need to resort
+to the shell. OpenWindows is built on the OpenLook graphical shell. The
+Open Systems Foundation's Motif GUI(OSF/Motif), Apple's A/UX Finder, and
+NeXTStep's NeXTStep GUI provide similar graphical environments. 
+  
+--> X Windows is both a graphical shell and the full windowing developer's
+toolkit, with which many of UNIX GUIs have been created. 
+  
+--> The X Window System is a network-independent, operating
+system-independent windowing system. It sits on top of different operating
+systems (UNIX, Macintosh System 7.0, VAX VMS, OS/2, DOS, etc.), making it
+a good product for mixed OS environments. 
+  
+--> With X Windows, system designers can apply consistent interface design
+across a wide range of hardware, operating systems, and applications. 
+  
+--> X Windows was developed at MIT, and is available on Internet FREE!!
+UNIX vendors include a copy of X Window as a part of their UNIX
+distribution....... 
+  
+  X Window Servers and Clients:
+  
+An X server program typically lives on a UNIX computer to control screens,
+keyboards, mouse, and other local devices. An X Window client is an
+application program displayed on the server's window or windows. It does
+not need to be running on the same computer, and the one it runs on may or
+may not be a UNIX machine! X Window clients can be displayed on the same
+UNIX machine as the X server, or the client and server can be separated
+but connected over a UNIX network. 
+  
+--> In short, X supports multiple windows run by multiple applications
+that send the inputs to these windows to various programs running locally
+on your UNIX machine or over the network on another host computer. 
+  
+--> The X server is the most device-dependent portion of the system. X
+servers have been written to run everything from micros to mainframes
+using various operating systems, including UNIX. 
+  
+--> Client applications make requests of these X servers and direct the
+server's use of bitmaps, cursors, fonts and windows. 
+  
+  Open Look    - Sun, AT&T
+  
+  OSF/Motif    - IBM, DEC, HP
+  
+  A/UX Finder  - Apple UNIX
+  
+  NeXTStep     - Mach version of UNIX developed at Carnegie-Mellon University
+  
+  

@@ -1,0 +1,111 @@
+  Lect#14      UNIX & C  Spring96
+  
+There is no way anyone can memorize or know every command & feature of
+UNIX system and shell operators & scripts, at least what best can be done
+is to familiarize with the basic stuff and then leave special skills to
+the future (workplace), like gaining hands- on-experience and
+expertise............. 
+  
+  As for C-shell details and programming I recommend:
+  
+  "Teach Yourself the UNIX C Shell in 14 days"
+  David Ennis & James C. Armstrong, Jr., SAMS Publishing (1994)
+  
+  Topics of interest:
+  
+  1. Built-in shell variables:
+     - $argv             the argument list
+     - $autologout       the auto-logoff timer
+     - $cdpath      the directory stack
+     - $child       the background process ID
+     - $cwd              the current working directory
+     - $fignore          the filename completion suffixes
+     - $histchars        the history substitution characters
+     - $history          the history list size
+     - $home        the user's home directory
+     - $mail             the user's mail path
+     - $path             the directory search list
+     - $prompt      the C-shell prompt string
+     - $savehist         the size of the saved history
+     - $shell            the default shell path
+     - $status      the command return status
+     - $time             the command timer control;
+     - $$           the current process ID
+  
+  Variables that act as switches:
+     - $echo
+     - $filec
+     - $hardpaths
+     - $ignoreeof
+     - $nobeep
+     - $noclobber
+     - $noglob
+     - $nonomatch
+     - $notify
+     - $verbose
+  
+      
+  2. C-shell built-in commands:
+     Navigation and directory stack commands:
+          - cd and chdir
+          - puchd
+          - popd
+          - dirs
+     Shell variable commands:
+          - set
+          - setenv
+          - unset
+          - unsetenv
+          - @
+     Miscellaneous commands:
+          - alias and unalias
+          - echo
+          - history
+          - time
+          - repeat
+          - umask
+          - eval
+          - source
+          - glob
+     Shell termination commands:
+          - exit
+          - exec
+          - login
+          - logout
+          - EOF
+     Job Control commands:
+          - jobs
+          - fg
+          - bg
+          - The % command
+          - notify
+          - kill
+          - stop
+          - suspend
+          - The wait command
+     Hash Table command:
+          - hashstat
+          - rehash
+          - unhash
+     Resource Control commands:
+          - limit
+          - unlimit
+          - nice
+          - nohup
+  
+  3. Programming with C-shell:
+     Looping commands:
+          - foreach
+          - while
+          - break
+          - continue
+          - goto
+     Conditional commands:
+          - The if command
+          - switch
+          - case
+          - default
+          - breaksw
+     Interrupt handling command:
+          - shift
+     

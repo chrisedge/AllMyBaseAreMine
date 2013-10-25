@@ -1,0 +1,149 @@
+Lect#11      UNIX & C  Spring96
+  
+C Shell Scripts
+  
+Scripts are nothing but a sequence of UNIX system commands. By using the
+source filename command, or by setting the execute permissions and typing
+the filename (as if it were a command), user can tell the C shell to read &
+perform commands in that file.
+  
+  NOTE: Every system Reference Manual recommends the use of Bourne shell
+for writing shell scripts. The Bourne shell has a simpler command syntax,
+faster execution time, and provides better security.
+  
+C shell scripts do not serve the same function as make, which is useful
+for consistently performining a set of operations on related files. C shell
+is more general in scope. Scripts do not check for dependencies. However,
+you can do many things with scripts, such as prompting for input from the
+terminal, that are not practical using make.
+  
+  When a script is invoked by name, the system looks at the very first
+line of the file to decide how to run it:
+     *  If the first line of the script starts with a #!, followed by the
+name of the program, the system uses that program to perform commands in
+the script.
+     *  If the first line starts with a # (hash sign), the system then
+uses the C shell to run the script
+     *  If the first line does not start with a # (hash sign), the system
+uses the Bourne shell to run the script.
+  
+  C shell Invocation:
+  
+  To run a script with no C shell startup processing, the first line
+should be of the form: 
+     #!  csh  -f  script
+  
+To pass a commd-line argument as parameters to a script, type its name,
+followed by any arguments you wish. The C shell places words following the
+name in the variable argv, the argument list. Command-line arguments are
+treated as words contained in this variable, or you can use the equivalent
+variables: $1 through $n, where n is the number of arguments in the list.
+  
+  Variables in scripts:
+  
+  A number of notations are available for accessing words in a variable,
+and other variable attributes.  
+  
+  --> The notation $?name expands to 1, if a named variable exists (using
+the set command), or to 0 otherwise.
+  
+     ace -> set var=(a b c)
+     ace -> echo $?var
+     1
+     ace -> unset var
+     ace -> echo $?var
+     0
+  
+  All other forms of reference to undefined variables cause errors.
+  
+  --> The notation $#name expands to the count of words in the variable
+name: 
+  
+     ace -> set var=(a b c)
+     ace -> echo $#var
+     3
+     ace -> unset var
+     ace -> echo $#var
+     var: Undefined variable.
+  
+  Expressions:
+  
+  All of the arithmetic operations of the C language are available in the
+C shell with the same operator precedence (priority & left-to-right
+evaluation). Even the operations == and != for comparing, and the && and ||
+implement the logical and and or operations, respectively. 
+  
+  File enquiries:
+  
+  The expression -e <filename> returns 1 if the file exists, and 0
+otherwise. Similar primitives ( -options) provide other test:
+     -r  1     if read-access is allowed for the user running the script
+     -w  1     if write-access is allowed for the user
+     -x  1     if execute-access is allowed
+     -0  1     if the user owns the file
+     -z  1     if the file has zero length
+     -f  1     if it is an ordinary file
+     -d  1     if it is a directory file
+  
+  Pathname processing Primitives:
+  
+  There are few primitives user can apply to pathnames to strip-off
+un-needed components: 
+  
+     :t (tail) removes all but the rightmost component (or basename) of
+the pathname
+     :r (root) removes suffixes begining with a dot (.)
+     :e (end) removes prefixes ending with a dot.
+     :h (head) removes the last component, leaving the pathname of the
+directory in which the file resides.
+  ** Try some of these and see with pwd command!!!
+  
+  Return Codes:
+  
+  It is possible to test whether a command terminates normally by using a
+primitive of the form { command }, which returns 1, if the command exists
+normally (with exit status 0), or 0 if the command terminates abnormally
+(with a nonzero return code!!).
+  
+  --> Since every command returns a value to status, you MUST save values
+of interest on the very next line of the script.
+  
+     set checkpoint=$status   .........where checkpoint is the variable name
+  
+  Sample C shell script:      
+  
+  The following script , copyc, copies files named as arguments into a
+backup directory: 
+  
+  #
+  #  copyc copies files named on the command line to the directory
+  #  ~ /backup if they differ from the files already in  ~ /backup
+  #
+  set noglob
+  foreach i ($argv)
+  
+     if  ($i  !~ *.c)  continue              # not a  .c file, do nothing
+  
+     if  (! -r  ~/backup/$i:t) then
+          echo $i:t not in backup..........  not cp\ ed
+          continue
+     endif
+  
+     cmp  -s $i  ~/backup/$i:t               #to set $status
+  
+     if  ($status != 0)  then
+          echo new backup of $i
+          cp $i  ~/backup/$i:t
+     endif
+  end
+  
+  The above script uses the foreach command, which causes the C shell to
+execute the command between it and the corresponding end with the named
+variable taking on each of the values given between (and). The named
+variable- in this case, i - is set to successive words in the list. Within
+this loop you can use the break command to stop executing the loop or
+continue to terminate one iteration and begin another. After the foreach
+loop, the iteration variable (i in this case) has the value it had during
+the last iteration. The varibale noglob is set to prevent filename
+expansion from being performed
+

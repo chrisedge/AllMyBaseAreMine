@@ -1,0 +1,11 @@
+#    read_test.script
+#
+#    A simple script to test the read command
+#
+echo "Give me a long sentence....:\c"
+read Word1 Word2 Rest         # read the user response
+echo "$Word1 \n $Word2\n $Rest"
+echo "end-of-my-act!!"
+echo
+
+$_
