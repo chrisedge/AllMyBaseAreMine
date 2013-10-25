@@ -1,0 +1,147 @@
+.\" This definition swiped from the nmap(1) man page
+.de Sp
+.if n .sp
+.if t .sp 0.4
+..
+.TH NSB 1
+.SH NAME
+nsb, nsbd \- Network Security Blanket
+.SH SYNOPSIS
+.B nsbd
+[-i interface] [-f configfile] [-p pidfile]
+.br
+[-v verbose] [-h help]
+.SH DESCRIPTION
+
+.I nsb
+will listen on a network segment and watch all(?) traffic looking for
+TCP connections.
+.I nsb
+decomposes each packet it pulls off the wire, looking for connections that are
+explicitly allowed or denied based on its configuration file (see the section
+.I Configuration File
+for more information). If the packet matches criteria determined by the
+configuration file to be unwanted,
+.I nsb
+will generate and send a TCP reset to both the source and destination hosts;
+effectively terminating the connection.
+.PP
+.I nsb
+can function as a crude network access control mechanism where router ACLs
+or a firewall are not possible or practical.
+.I nsb
+can also function as a primitive intrusion detection system by sniffing
+passively on a network in "stealth" mode using an interface without a bound
+IP address.
+.SH OPTIONS
+
+You may run
+.B nsbd -h
+for a fairly thorough explanation of the available options and their uses.
+.TP
+.B \-i [interface]
+Selects the interface for nsbd to listen on. By default, eth0 is used
+.B (even if your system doesn't have an interface called eth0).
+If you wish nsbd to sniff on another interface, specify one. For example,
+to sniff on eth1:
+.Sp
+nsbd
+.I \-i eth1 
+.TP
+.B \-f [configfile]
+Specify the configuration file that nsbd reads its access control list from.
+The default is ./default.cnf. To have nsbd read its access control list from
+the file /etc/nsbd.conf:
+.Sp
+nsbd
+.I \-f /etc/nsbd.conf
+.TP
+.B \-p [pidfile]
+nsbd runs as a daemon. The process ID it runs under is written by default to
+the file /nsbd.pid  To have nsbd write its process ID to the file
+/var/tmp/nsbd.pid:
+.Sp
+nsbd
+.I \-p /var/tmp/nsbd.pid
+.TP
+.B \-v
+Enables verbose mode. nsbd will spam standard out with lots of information.
+Obviously this should be used sparingly as it may degrade performance.
+.TP
+.B \-h
+Prints out a summary of the above options and their uses.
+.PP
+.TP
+.I Configuration File
+nsb reads its access control list from a configuration file called by
+default, ./default.cnf. This configuration file consists of rules that nsbd
+uses to decide whether or not a connection it sees should be killed or allowed
+to continue.
+.Sp
+The configuration file
+.B must
+contain at least one line with a default policy. The format of the default
+policy is as follows:
+.Sp
+.B default:any default:any [ allow | deny ]
+.Sp
+The rest of the file should contain normal rules of the following format:
+.Sp
+.B hostA:portA hostB:portB policy
+.Sp
+.I hostA
+and
+.I hostB
+can be either a valid IP address, or the special IP address 0.0.0.0 to specify
+all hosts (a future release will support CIDR blocks).
+.I portA
+and
+.I portB
+can be singular port numbers (i.e., 21), a range of ports (i.e., 21-25), or any
+of the following keywords:
+.Sp
+.B any
+\- expands internally to the port range 0-65535.
+.B low
+\- expands internally to the port range 0-1023.
+.B high
+\- expands internally to the port range 1024-65535.
+.Sp
+Comments are supported on lines
+.B beginning
+with a "#".
+.Sp
+The
+.I nsb
+distribution comes with a sample configuration file with plenty of examples.
+.SH BUGS
+Right....... Please let us know when you find them.
+.SH AUTHORS
+.Sp
+Chris Edge
+.br
+Mark Carey
+.br
+Paul Cardon
+.SH DISTRIBUTION
+The newest version of
+.I nsb
+can always be found at
+.I http://www.lockitdown.com/nsb
+.Sp
+.I nsb
+is (C) 1999, 2000 by WolfPak Enterprises, Inc.
+.Sp
+.I libpcap
+is copyrighted by Van Jacobson, Craig Leres and Steven McCanne, all of the
+Lawrence Berkeley National Laboratory, University of California, Berkeley, CA.
+The version distributed with
+.I nsb
+may have been modified. Original sources are available from
+ftp://ftp.ee.lbl.gov/libpcap.tar.Z .
+.Sp
+This program is distributed in the hope that it will be useful, but WITHOUT ANY
+WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+PARTICULAR PURPOSE. See the file LICENSE in the
+.I nsb
+distribution for details.

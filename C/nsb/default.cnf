@@ -1,0 +1,4 @@
+# Configuration file
+default:any default:any allow
+172.23.16.254:any 172.23.16.1:22 deny
+172.23.16.254:any 172.23.16.1:23 allow

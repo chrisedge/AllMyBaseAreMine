@@ -1,0 +1,21 @@
+# The following is a sample configuration file to be used with nsb.
+# Any lines in the config file beginning with a # will be treated as a
+# comment. NOTE: the line must begin with a #
+# The format is as follows: hostA:portA hostB:portB policy
+# Where host is an IP or the keyword default, and policy is allow or deny.
+# IP may also be 0.0.0.0 to specify any host.
+# A default line must be present.
+# Ports can be any number between 0 and 65535, or the following keywords:
+# low, high, or any
+# Where low is 0-1024, high is 1024-65535, and any is high and low.
+# So, given those definitions we have the following example:
+
+# Working on the implicit deny model.
+default:any default:any deny
+# Allow everyone to talk to the mail server.
+10.0.0.100:25 0.0.0.0:high allow
+# Allow everyone to talk to the web proxy server.
+10.0.0.101:80 0.0.0.0:high allow
+
+# Feel free to mess the config file up, nsb will not parse an invalid config
+# file and will notify you when you've made a mistake.

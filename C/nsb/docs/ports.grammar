@@ -1,0 +1,10 @@
+This is an overview of the grammar for port specification in the config file.
+
+ip:[portlist]
+portlist := portrange
+portrange := number[-number] | "low" | "high" | "any"
+number := digit[number] {number: (0 <= number <= 65535) }
+digit := "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9"
+low := 0-1023
+high := 1023-65535
+any := 0-65535

@@ -1,0 +1,21 @@
+Project NSB todo list.
+To do:
+**** PERFORMANCE TEST ****
+**** TEST IN PASSIVE MODE ****
+**** ADD IN SUPPORT FOR CIDR BLOCKS ****
+1) Make the Makefile (no pun intended) better and actually useful (find
+libpcap, etc) and use autoconf.
+2) Add a catch all clause in the arg handling routine to catch errors.
+5) Add an interactive interface a la hunt that shows stats, status, and
+options to update active policy, save and quit, etc.
+****
+10) Be able to specify different logging levels and facilities.
+****
+13) Add alternate logging database support. (Token logging facility for speed an
+d tamper resistance.)
+14) Add dedicated interface logging support for secure logging database
+15) v2 thing: ICMP fun stuff.  Redirect, host/dest/port unreach messages.
+16) Add a signal handler for HUP so that nsbd will re-read in the config file.
+
+Please send all comments to phork@columbus.rr.com, osceola@columbus.rr.com
+and paul@moquijo.com
