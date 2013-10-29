@@ -1,0 +1,5 @@
+user ftp
+pass test@
+TYPE I
+RETR /pub/liveupdate/livetri.zip
+QUIT

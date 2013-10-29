@@ -1,0 +1,11 @@
+basedir=default
+mail=
+runlevel=nocheck
+conflict=nochange
+setuid=nocheck
+action=nocheck
+partial=nocheck
+instance=overwrite
+idepend=nocheck
+rdepend=nocheck
+space=quit

@@ -1,0 +1,10 @@
+grep livetri.zip daemon |grep RETR | awk '{print $5}' |uniq | cut -f1 -d: >>1.txt
+
+cat 1.txt |sed 's/\[/\\\[/g' >>2.txt
+cat 2.txt |sed 's/\]/\\\]/g' >>3.txt
+
+for xx in `cat 3.txt`
+do
+  grep $xx daemon |grep ANONYMOUS >>4.txt
+done
+
