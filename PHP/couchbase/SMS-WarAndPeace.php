@@ -134,6 +134,7 @@
 			$to = $users[1];
 		}
 
+		// Uncomment to just run a few times.
 		//if ( $msgCount == 400 ) { exit; }
 	}
 
