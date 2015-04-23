@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>USPS Digital Mail | Compose</title>
+    <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
+    <!-- bootstrap 3.3.2 -->
+    <link href="assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <!-- font Awesome -->
+    <link href="assets/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+    <!-- Ionicons -->
+    <link href="assets/css/ionicons.min.css" rel="stylesheet" type="text/css" />
+    <!-- Theme style -->
+    <link href="assets/css/AdminLTE.min.css" rel="stylesheet" type="text/css" />
+    <!-- AdminLTE Skins. Choose a skin from the css/skins
+         folder instead of downloading all of them to reduce the load. -->
+    <link href="assets/css/skins/skin-blue.min.css" rel="stylesheet" type="text/css" />
+    <!-- iCheck -->
+    <link href="assets/plugins/iCheck/flat/blue.css" rel="stylesheet" type="text/css" />
+    
+    <link href="assets/plugins/froala_editor/css/froala_editor.min.css" rel="stylesheet" type="text/css" />
+    <link href="assets/plugins/froala_editor/css/froala_style.min.css" rel="stylesheet" type="text/css" />
+    <!-- For displaying the editing content elsewhere -->
+    <!-- Basic formatting for image, video, table, code and quote. -->
+    <link href="assets/plugins/froala_editor/css/froala_content.min.css" rel="stylesheet" type="text/css" />
+    <!-- CSS rules for styling the block tags such as p, h1, h2, etc. -->
+    <link href="assets/plugins/froala_editor/css/froala_style.min.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="controller/upload.js"></script>
+    <script type="text/javascript" src="controller/auth.js"></script>
+    <script type="text/javascript" src="beacon.js"></script>
+    <script type="text/javascript" src="controller/mail.js"></script>
+</head>
+<body class="skin-blue">
+    <div class="wrapper">
+      
+      <header class="main-header">
+        <a href="#" class="logo"><b>USPS</b> Digital Mail</a>
+        <!-- Header Navbar: style can be found in header.less -->
+        <nav class="navbar navbar-static-top" role="navigation">
+          
+          <div class="navbar-custom-menu">
+            <ul class="nav navbar-nav">
+              
+              <!-- User Account: style can be found in dropdown.less -->
+              <li class="dropdown user user-menu">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                  <span class="hidden-xs" id="userName"></span>
+                </a>
+                <ul class="dropdown-menu">
+                  <!-- Menu Footer-->
+                  <li class="user-footer">
+                    <div class="pull-left">
+                      <a href="settings.html" class="btn btn-default btn-flat">Profile</a>
+                    </div>
+                    <div class="pull-right">
+                      <a href="javascript:" id="logout" class="btn btn-default btn-flat">Sign out</a>
+                    </div>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+        </nav>
+      </header>
+      
+      <!-- Content Wrapper. Contains page content -->
+      <div class="content-wrapper">
+
+        <!-- Main content -->
+        <section class="content">
+          <div class="row">
+            <div class="col-md-12">
+              
+              <div class="box box-primary">
+                <div class="box-header with-border" id="accordion">
+                  <h4 class="box-title">Compose a new message using a digital or traditional address.</h4>
+                </div><!-- /.box-header -->
+              
+              <form method="post" action="compose.html">  
+                <div class="box-body" style="min-height: 400px">
+                  
+                  <div class="panel-group" id="accordion">
+                    
+                    <div class="panel">
+                      <h4>
+                        <a data-toggle="collapse" data-parent="#accordion" href="#digitalAddress">Digital Address</a>
+                      </h4>
+                      <div id="digitalAddress" class="panel-collapse collapse">
+                        <div class="panel-body">
+                          <div class="row">
+                            <div class="form-group col-md-4">
+                              <input type="text" class="form-control" id="toSubscriberID" placeholder="alias@subscriberID"/>
+                            </div>
+                          </div>
+                        </div><!--panel body -->
+                      </div><!--digitalAddress-->
+                    </div><!-- panel -->
+
+                  <div class="panel">
+                    <h4>
+                      <a data-toggle="collapse" data-parent="#accordion" href="#physicalAddress">Physical Address</a>
+                    </h4>
+                      <div id="physicalAddress" class="panel-collapse collapse">
+                        <div class="panel-body">
+                          <div class="row">
+                            <div class="form-group col-md-4">
+                              <input class="form-control" type="text" id="addressee" placeholder="Addressee"/>
+                            </div>
+                          </div>
+                        <div class="row">
+                          <div class="form-group col-md-4">
+                            <input class="form-control" type="text" id="addr1" placeholder="Address Line 1"/>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="form-group col-md-4">
+                            <input class="form-control" type="text" id="addr2" placeholder="Address Line 2"/>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="form-group col-md-4">
+                            <input class="form-control" type="text" id="city" placeholder="City"/>
+                          </div>
+                          <div class="form-group col-md-2">
+                            <input class="form-control" type="text" id="state" placeholder="State"/>
+                          </div>
+                          <div class="form-group col-md-2">
+                            <input class="form-control" type="text" id="zip" placeholder="Zip"/>
+                          </div>
+                        </div>
+                      </div><!-- panel body -->
+                    </div><!-- physicalAddress-->
+                    </div><!--panel -->
+
+                </div><!-- accordion -->
+            
+                  <div class="form-group">
+                    <textarea id="content" class="form-control" style="width:100%"></textarea>
+                </div>
+                  
+                </div><!-- /.box-body -->
+                <div class="box-footer">
+                  <div class="pull-left">
+                    <button type="button" id="draft" class="btn btn-warning"><i class="fa fa-file-text-o"></i> Draft</button>
+                  </div>
+                  <div class="pull-right">
+                    <button type="button" id="process" class="btn btn-primary"><i class="fa fa-envelope-o"></i> Send</button>
+                  </div>
+                  <button class="btn btn-default" id="discard"><i class="fa fa-times"></i> Discard</button>
+                </div><!-- /.box-footer -->
+            </form>
+                
+              </div><!-- /. box -->
+          
+            </div><!-- /.col -->
+          </div><!-- /.row -->
+        </section><!-- /.content -->
+      </div><!-- /.content-wrapper -->
+
+<!--<div class="froala-view" id="display"></div>--><!-- preview pane -->
+
+<script src="assets/plugins/jQuery/jQuery-2.1.3.min.js"></script>
+<!-- Bootstrap 3.3.2 JS -->
+<script src="assets/js/bootstrap.min.js" type="text/javascript"></script>
+<!-- Slimscroll -->
+<script src="assets/plugins/slimScroll/jquery.slimscroll.min.js" type="text/javascript"></script>
+<!-- FastClick -->
+<script src='assets/plugins/fastclick/fastclick.min.js'></script>
+<!-- AdminLTE App -->
+<script src="assets/js/app.min.js" type="text/javascript"></script>
+<!-- iCheck -->
+<script src="assets/plugins/iCheck/icheck.min.js" type="text/javascript"></script>
+<!-- Froala Editor -->
+<script src="assets/plugins/froala_editor/js/froala_editor.min.js"></script>
+<script src="assets/plugins/froala_editor/js/plugins/colors.min.js"></script>
+<script src="assets/plugins/froala_editor/js/plugins/file_upload.min.js"></script>
+<script src="assets/plugins/froala_editor/js/plugins/font_family.min.js"></script>
+<script src="assets/plugins/froala_editor/js/plugins/font_size.min.js"></script>
+<script src="assets/plugins/froala_editor/js/plugins/fullscreen.min.js"></script>
+<script src="assets/plugins/froala_editor/js/plugins/lists.min.js"></script>
+<script src="assets/plugins/froala_editor/js/plugins/media_manager.min.js"></script>
+<script src="assets/plugins/froala_editor/js/plugins/tables.min.js"></script>
+
+<!-- Initialize the editor. -->
+<script>
+    $(function () { 
+      var portscanner = require('portscanner');
+      // Find an open port we can listen on for file uploads.
+      portscanner.findAPortNotInUse(60000, 60999, '127.0.0.1', function(error, port) {
+        //console.log('AVAILABLE PORT AT: ' + port)
+        dash.webServer(port) // Initialize the web server in upload.js.
+        $(function() {
+            $('#content').editable({
+                inlineMode: false,
+                imageUploadURL: 'http://localhost:'+port+'/upload',
+                imageUploadParams: {id: "content"}
+            })
+        });
+      })
+
+      // Check localStorage for a draftCurrent message ID that
+      // indicates a draft should be loaded into the editor.
+      var messageID = localStorage.getItem('draftCurrent');
+      db = db.connect('collections', ['users', 'outbox', 'drafts']);
+      if(messageID != null) {
+        var message = db.drafts.findOne({_id : messageID});
+        $("#fromData").append('From: '+message['fromPhysicalAddress']+'<br />'+message['fromAlias']+'@'+message['fromSubscriberID']);
+        var user = JSON.parse(localStorage.getItem('user')); // Get the current user from localStorage....
+        var users = db.users.findOne({userid: user.userid});
+        // Decrypt the message data.
+        var privateKey = forge.pki.privateKeyFromPem(users.privateKey);
+        var messageKey = privateKey.decrypt(forge.util.decode64(message.message.key));
+        var decipher = forge.cipher.createDecipher('AES-CBC', messageKey);
+        var iv = forge.util.decode64(message.message.iv);
+        var messageData = forge.util.hexToBytes(message.message.messageData);
+        decipher.start({iv: iv});
+        var buffer = forge.util.createBuffer();
+        buffer.putBytes(messageData);
+        decipher.update(buffer);
+        decipher.finish();
+        // outputs decrypted hex
+        //console.log('decrypted: ', decipher.output.data);
+        $("#content").val(decipher.output.data);
+        db.drafts.remove({_id: messageID}, false);
+      }
+
+    });
+
+    
+
+</script>
+
+<script>
+  $('#process').on('click', function() {
+    var db = require('diskdb');
+    var text = $('#content').editable('getHTML'); // Extract the message they created.
+    var user = JSON.parse(localStorage.getItem('user')); // Get the current user object from localStorage.
+    //console.log(encoded);
+    if ( $('#toSubscriberID').val().trim().length > 0 ) {
+      var toSub = $('#toSubscriberID').val().trim().split('@');
+      var messageFields = {
+        toAlias: toSub[0],
+        toSubscriberID: toSub[1],
+        toName: "",
+        toPhysicalAddress: ""
+      }
+      var toSub = $('#toSubscriberID').val().trim().split('@');
+      var toAlias = toSub[0];
+      var toSubscriberID = toSub[1];
+      var toName = "";
+      var toPhysicalAddress = "";
+    } else if ( $('#addressee').val().trim().length > 0 ) {
+      var toName = $('#addressee').val().trim();
+      var toAddr1 = $('#addr1').val().trim();
+      var toAddr2 = $('#addr2').val().trim();
+      var toCity = $('#city').val().trim();
+      var toState = $('#state').val().trim();
+      var toZip = $('#zip').val().trim();
+      var toPhysicalAddress = toAddr1+'\r\n'+toAddr2+'\r\n'+toCity+'\r\n'+toState+'\r\n'+toZip;
+      var toAlias = "";
+      var toSubscriberID = "";
+      
+      var messageFields = {
+        toAlias: "",
+        toSubscriberID: "",
+        toName: $('#addressee').val().trim(),
+        toPhysicalAddress: toAddr1+'\r\n'+toAddr2+'\r\n'+toCity+'\r\n'+toState+'\r\n'+toZip
+      }
+    } else {
+      alert("No address detected.");
+      return false;
+    };
+
+    
+    db = db.connect('collections', ['users', 'outbox', 'drafts']);
+    //console.log(mail.message.messageData.length);
+    var postage = dash.calcPostage(text); // mail.js
+
+    // Check the user's balance.
+    var dbuser = db.users.findOne({userid: user.userid});
+    var postageBalance = dbuser.postageBalance;
+    if( (postageBalance - postage) < 0 ) {
+      alert("Not enough funds in your account for this postage: $" +postage+". Saving message to drafts.");
+      var mail = dash.encryptMessage(text, messageFields, user, 'owner'); // mail.js
+      db.drafts.save(mail);
+      localStorage.removeItem('currentBalance');
+      location.href="settings.html";
+    } else {
+      // Deduct.
+      db.users.update( {userid: user.userid}, {postageBalance: (postageBalance - postage)}, {multi: false, upsert:false} );
+      alert("Postage of $"+postage+" has been debited from your account.");
+      var mail = dash.encryptMessage(text, messageFields, user, 'usps'); // mail.js
+      db.outbox.save(mail);
+      location.href="mailbox.html";
+    }
+    
+    //$('#display').append(text);
+
+  });
+
+  $('#draft').on('click', function (e) {
+    e.preventDefault();
+
+    var db = require('diskdb');
+    var text = $('#content').editable('getHTML'); // Extract the message they created.
+    var user = JSON.parse(localStorage.getItem('user')); // Get the current user object from localStorage.
+    //console.log(encoded);
+    if ( $('#toSubscriberID').val().trim().length > 0 ) {
+      var toSub = $('#toSubscriberID').val().trim().split('@');
+      var messageFields = {
+        toAlias: toSub[0],
+        toSubscriberID: toSub[1],
+        toName: "",
+        toPhysicalAddress: ""
+      }
+      var toSub = $('#toSubscriberID').val().trim().split('@');
+      var toAlias = toSub[0];
+      var toSubscriberID = toSub[1];
+      var toName = "";
+      var toPhysicalAddress = "";
+    } else if ( $('#addressee').val().trim().length > 0 ) {
+      var toName = $('#addressee').val().trim();
+      var toAddr1 = $('#addr1').val().trim();
+      var toAddr2 = $('#addr2').val().trim();
+      var toCity = $('#city').val().trim();
+      var toState = $('#state').val().trim();
+      var toZip = $('#zip').val().trim();
+      var toPhysicalAddress = toAddr1+'\r\n'+toAddr2+'\r\n'+toCity+'\r\n'+toState+'\r\n'+toZip;
+      var toAlias = "";
+      var toSubscriberID = "";
+      
+      var messageFields = {
+        toAlias: "",
+        toSubscriberID: "",
+        toName: $('#addressee').val().trim(),
+        toPhysicalAddress: toAddr1+'\r\n'+toAddr2+'\r\n'+toCity+'\r\n'+toState+'\r\n'+toZip
+      }
+    } else {
+      alert("No address detected.");
+      return false;
+    };
+
+    var mail = dash.encryptMessage(text, messageFields, user, 'owner'); // mail.js
+
+    db = db.connect('collections', ['drafts']);
+    db.drafts.save(mail);
+    location.href="mailbox.html";
+  });
+
+  $('#discard').on('click', function (e) {
+    e.preventDefault();
+    location.href = "mailbox.html"
+  })
+
+  $('#logout').on('click', function(e) {
+    e.preventDefault();
+    if (dash.signOut()) location.href = 'index.html';
+      else alert('Oops something went wrong!');
+  })
+
+</script>
+
+</body>
+</html>

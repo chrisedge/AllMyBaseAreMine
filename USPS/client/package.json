@@ -1,0 +1,38 @@
+{
+  "name": "myDashboard",
+  "version": "1.0.0",
+  "description": "A node-webkit dashboard application",
+  "main": "index.html",
+  "private": true,
+  "window": {
+    "title": "USPS Digital Mail",
+    "frame": true,
+    "toolbar": false,
+    "resizable": false,
+    "width": 1000,
+    "height": 600,
+    "min_width": 600,
+    "min_height": 400,
+    "max_width": 1000,
+    "max_height": 600,
+    "position": "center"
+  },
+  "author": "Chris Edge",
+  "license": "MIT",
+  "dependencies": {
+    "async": "^0.9.0",
+    "bcrypt-nodejs": "0.0.3",
+    "body-parser": "^1.12.2",
+    "diskdb": "^0.1.14",
+    "express": "^4.12.3",
+    "http-sync": "^0.1.1",
+    "lzma": "^2.0.5",
+    "node-forge": "^0.6.21",
+    "pem": "^1.7.2",
+    "request-sync": "^1.0.0",
+    "spawn-sync": "^1.0.6",
+    "sync-request": "^2.0.1",
+    "ursa": "^0.8.4",
+    "weather-js": "^1.0.1"
+  }
+}

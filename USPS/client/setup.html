@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>USPS Digital Mail | Setup</title>
+    <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
+    <!-- Bootstrap 3.3.2 -->
+    <link href="assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <!-- Font Awesome Icons -->
+    <link href="assets/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+    <!-- Ionicons -->
+    <link href="assets/css/ionicons.min.css" rel="stylesheet" type="text/css" />
+    <!-- Theme style -->
+    <link href="assets/css/AdminLTE.min.css" rel="stylesheet" type="text/css" />
+    <!-- AdminLTE Skins. Choose a skin from the css/skins
+         folder instead of downloading all of them to reduce the load. -->
+    <link href="assets/css/skins/skin-blue.min.css" rel="stylesheet" type="text/css" />
+    <!-- iCheck -->
+    <link href="assets/plugins/iCheck/flat/blue.css" rel="stylesheet" type="text/css" />
+
+    <script type="text/javascript" src="controller/auth.js"></script>
+  </head>
+  <body class="skin-blue">
+    <div class="wrapper">
+      
+      <header class="main-header">
+        
+        <!-- Header Navbar: style can be found in header.less -->
+        
+      </header>
+
+      <!-- Content Wrapper. Contains page content -->
+      <div class="content-wrapper">
+        
+
+        <!-- Main content -->
+        <section class="content">
+          <div class="row">
+            <div class="col-md-12">
+              
+              <div class="box box-primary">
+                <div class="box-header with-border">
+                  <h3 class="box-title">Account Creation</h3>
+                </div><!-- /.box-header -->
+
+                <!-- Put content here -->
+                <div class="register-box">
+        <div class="register-logo">
+            <b>USPS</b> Digital Mail
+        </div>
+        <div class="register-box-body">
+            <form>
+            
+                <div class="form-group has-error">
+                    <label class="control-label hide" id="form-val"><i class="fa fa-times-circle-o"></i> Please fill the form completely to continue</label>
+                </div>
+                <div class="form-group has-error">
+                    <label class="control-label hide" for="firstName"><i class="fa fa-times-circle-o"></i> First name should be at least 1 charcter</label>
+                    First Name
+                    <input type="text" name="firstName" id="firstName" class="form-control" placeholder="First Name" />
+                </div>
+                <div class="form-group has-error">
+                    <label class="control-label hide" for="lastName"><i class="fa fa-times-circle-o"></i> Last name should be at least 1 charcter</label>
+                    Optional Middle Name
+                    <input type="text" name="middleName" id="middleName" class="form-control" placeholder="Middle Name" />
+                </div>
+                <div class="form-group has-error">
+                    <label class="control-label hide" for="lastName"><i class="fa fa-times-circle-o"></i> Last name should be at least 1 charcter</label>
+                    Last Name
+                    <input type="text" name="lastName" id="lastName" class="form-control" placeholder="Last Name" />
+                </div>
+                <div class="form-group has-error">
+                    <label class="control-label hide" for="userid"><i class="fa fa-times-circle-o"></i> User ID should be at least 1 charcter</label>
+                    This will be your digital mail alias and should be similar to 'firstname_lastname'
+                    <input type="text" name="userid" id="userid" class="form-control" placeholder="alias" />
+                </div>
+                <div class="form-group has-error">
+                    <label class="control-label hide" for="password"><i class="fa fa-times-circle-o"></i> Password should be at least 1 charcter</label>
+                    Password
+                    <input type="password" name="password" id="password" class="form-control" placeholder="Password" />
+                </div>
+            
+            <div class="footer">
+                <button type="button" id="register" class="btn btn-primary btn-block">Sign me up</button>
+                <a href="index.html" class="text-center">I already have an account</a>
+            </div>
+        </form>
+        </div><!-- register-box-body -->
+    </div><!-- register-box>
+
+                <div class="box-footer">
+                  <div class="pull-right">
+                    <button class="btn btn-default"><i class="fa fa-pencil"></i> Draft</button>
+                    <button type="button" id="process" class="btn btn-primary"><i class="fa fa-envelope-o"></i> Preview</button>
+                  </div>
+                  <button class="btn btn-default" id="discard"><i class="fa fa-times"></i> Discard</button>
+                </div><!-- /.box-footer -->
+              </div><!-- /. box -->
+          
+            </div><!-- /.col -->
+          </div><!-- /.row -->
+        </section><!-- /.content -->
+      </div><!-- /.content-wrapper -->
+
+<script src="assets/plugins/jQuery/jQuery-2.1.3.min.js"></script>
+<!-- Bootstrap 3.3.2 JS -->
+<script src="assets/js/bootstrap.min.js" type="text/javascript"></script>
+
+
+<script type="text/javascript">
+     $('#firstName').on('blur', function() {
+        var $this = $(this);
+        if ($this.val().trim().length < 1) {
+            $this.prev().removeClass('hide');
+            return false;
+        } else {
+            $this.prev().addClass('hide');
+            return true;
+        }
+    });
+
+     $('#lastName').on('blur', function() {
+        var $this = $(this);
+        if ($this.val().trim().length < 1) {
+            $this.prev().removeClass('hide');
+            return false;
+        } else {
+            $this.prev().addClass('hide');
+            return true;
+        }
+    });
+ 
+    $('#userid').on('blur', function() {
+        var $this = $(this);
+        if ($this.val().trim().length < 1) {
+            $this.prev().removeClass('hide');
+            return false;
+        } else {
+            $this.prev().addClass('hide');
+            return true;
+        }
+    });
+    $('#password').on('blur', function() {
+        var $this = $(this);
+        if ($this.val().trim().length < 1) {
+            $this.prev().removeClass('hide');
+            return false;
+        } else {
+            $this.prev().addClass('hide');
+            return true;
+        }
+    });
+ 
+    function triggerFormVal() {
+        if ( $('#firstName').val().trim().length > 0 && $('#lastName').val().trim().length > 0 && $('#userid').val().trim().length > 0 && $('#password').val().trim().length > 0) {
+            return true;
+        } else {
+            $('#firstName,#lastName,#userid,#password').trigger('blur');
+            return false;
+        }
+    }
+ 
+    $('#register').on('click', function() {
+        if (triggerFormVal()) {
+            dash.registerUser( $('#firstName').val().trim(), $('#middleName').val().trim(), $('#lastName').val().trim(), $('#userid').val().trim(), $('#password').val().trim());
+            /*if (resp == 1) {
+                alert("New user account has been created. You may now login with your alias and password.")
+                location.href = 'index.html';
+            //} else if (resp == 2) {
+            //    location.href = 'settings.html';
+            } else if (resp == 0) {
+                alert('That alias is already in use for this device.');
+            } else {
+                alert('Oops something went wrong! resp: '+resp);
+            }*/
+            //alert("New user account has been created. You may now login with your alias and password.")
+            //location.href = 'index.html';
+            $('#form-val').addClass('hide');
+        } else {
+            $('#form-val').removeClass('hide');
+        }
+        alert("New user account has been created. You may now login with your alias and password. If this is the first user, you must restart the application.")
+        location.href = 'index.html';
+    }); 
+</script>
+
+
+</body>
+</html>
